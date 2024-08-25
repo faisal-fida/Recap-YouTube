@@ -71,14 +71,33 @@ async def search(
         },
     )
 
+def get_summary(video_url: str):
+    from youtube_transcript_api import YouTubeTranscriptApi
+    from youtube_transcript_api.formatters import JSONFormatter
 
-@router.get("/summary/{video_id}", response_class=HTMLResponse)
-async def summary(
-    request: Request, db: AsyncSession = Depends(get_db), video_id: str = ""
-):
+    video_id = video_url.split("v=")[1]
+    transcript = YouTubeTranscriptApi.get_transcript(video_id)
+    formatter = JSONFormatter()
+    formatted_transcript = formatter
+    return formatted_transcript
+
+
+@router.get("/summary/{video_url}", response_class=HTMLResponse)
+async def summary(request: Request, video_url: str, db: AsyncSession = Depends(get_db)):
+    video_id = video_url.split("v=")[1]
     query = select(YoutubeSummary).where(YoutubeSummary.video_id == video_id)
     result = await db.execute(query)
     summary = result.scalars().first()
+
+    if not summary:
+        formatted_transcript = get_summary(video_url)
+        summary = YoutubeSummary(
+            video_url=video_url,
+            title=formatted_transcript["title"],
+            description=formatted_transcript["description"],
+            thumbnail=formatted_transcript["thumbnail"],
+            transcript=formatted_transcript["transcript"],
+        )
 
     return templates.TemplateResponse(
         "summary.html",

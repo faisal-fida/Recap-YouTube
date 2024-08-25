@@ -14,28 +14,28 @@
         name="video_url"
         id="video_url"
         placeholder="Enter a YouTube video URL"
-        class="bg-gray-100 p-2 rounded-l w-96"
+        class="bg-gray-100 p-2 rounded-l w-[450px] h-[45px] border-none focus:outline-none"
       />
       <button
         type="submit"
-        class="text-white bg-red-500 hover:bg-red-700 p-2 rounded-r"
+        class="bg-blue-500 text-white p-2 rounded-r"
       >
         Summarize
       </button>
     </form>
   </section>
   
-  <section class="mt-10 flex justify-center items-center flex-col space-y-4 bg-gray-100 p-4 rounded-lg">
+  <section class="mt-10 flex justify-center items-center flex-col p-6 bg-gray-100 p-4 rounded-lg">
     <h2 class="text-2xl font-semibold mb-4 text-gray-600">Summary</h2>
     <p class="text-gray-700">The summary will appear here...</p>
   </section>
 
-  <section class="mt-10 flex justify-center items-center flex-col space-y-4 bg-gray-100 p-4 rounded-lg">
+  <section class="mt-10 flex justify-center items-center flex-col p-6 bg-gray-100 p-4 rounded-lg">
     <h2 class="text-2xl font-semibold mb-4 text-gray-600">Recent Summaries</h2>
   {% include "partials/recent.html" %}
   </section>
 
-  <section class="mt-10 flex justify-center items-center flex-col space-y-4 bg-gray-100 p-4 rounded-lg">
+  <section class="mt-10 flex justify-center items-center flex-col bg-gray-100 p-4 rounded-lg">
     <h2 class="text-2xl font-semibold mb-4 text-gray-600">Current Statistics</h2>
     {% include "partials/stats.html" %}
   </section>

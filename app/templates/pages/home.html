@@ -1,49 +1,44 @@
-{% extends "base.html" %} {% block content %}
+{% extends "base.html" %}
 
-<div class="container mx-auto p-4">
-  <!-- Navigation Bar -->
-  <nav class="navbar bg-base-100 shadow-lg mb-4">
-    <div class="flex-1">
-      <a class="btn btn-ghost normal-case text-xl">YouTubse Summary</a>
-    </div>
-    <div class="flex-none">
-      <button class="btn btn-square btn-ghost">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          class="h-5 w-5"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M4 6h16M4 12h16m-7 6h7"
-          />
-        </svg>
-      </button>
-    </div>
-  </nav>
+{% block content %}
+<main class="container mx-auto p-10 mt-10">
+  <section class="flex justify-center items-center flex-col">
+    <img src="{{ url_for('static', path='images/youtube-logo.png') }}" alt="YouTube Logo" class="w-24 h-24" />
+    <h1 class="text-3xl font-bold text-center mb-8">RecapYT - AI Video Summarizer</h1>
+  </section>
 
-  <!-- Main Content -->
-  <div class="text-center">
-    <h1 class="text-4xl font-bold mb-4">Get Your YouTube Video Summary</h1>
-    <form class="mb-8">
+  <section class="flex justify-center items-center flex-row">
+    <form method="POST" class="flex flex-row">
       <input
         type="text"
-        placeholder="Enter YouTube URL"
-        class="input input-bordered w-full max-w-lg mb-4"
+        name="video_url"
+        id="video_url"
+        placeholder="Enter a YouTube video URL"
+        class="bg-gray-100 p-2 rounded-l w-96"
       />
-      <button type="submit" class="btn btn-primary">Summarize</button>
+      <button
+        type="submit"
+        class="text-white bg-red-500 hover:bg-red-700 p-2 rounded-r"
+      >
+        Summarize
+      </button>
     </form>
-  </div>
+  </section>
+  
+  <section class="mt-10 flex justify-center items-center flex-col space-y-4 bg-gray-100 p-4 rounded-lg">
+    <h2 class="text-2xl font-semibold mb-4 text-gray-600">Summary</h2>
+    <p class="text-gray-700">The summary will appear here...</p>
+  </section>
 
-  <!-- Summary Section -->
-  <div id="summary-section" class="mt-8">
-    <!-- This section will be populated with summaries -->
-    {% include "partials/page.html" %}
-  </div>
-</div>
+  <section class="mt-10 flex justify-center items-center flex-col space-y-4 bg-gray-100 p-4 rounded-lg">
+    <h2 class="text-2xl font-semibold mb-4 text-gray-600">Recent Summaries</h2>
+  {% include "partials/recent.html" %}
+  </section>
 
-{% endblock content %}
+  <section class="mt-10 flex justify-center items-center flex-col space-y-4 bg-gray-100 p-4 rounded-lg">
+    <h2 class="text-2xl font-semibold mb-4 text-gray-600">Current Statistics</h2>
+    {% include "partials/stats.html" %}
+  </section>
+
+</main>
+{% endblock %}

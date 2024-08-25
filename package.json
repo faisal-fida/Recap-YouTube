@@ -11,16 +11,16 @@
   "watch": {
     "build:tailwindcss": {
       "patterns": [
-        "../app/static/**/*.{html,js}",
-        "../app/templates/**/*.{html,js}"
+        "./app/static/**/*.{html,js}",
+        "./app/templates/**/*.{html,js}"
       ],
       "extensions": "html,js",
       "quiet": false
     }
   },
   "scripts": {
-    "build:tailwindcss": "postcss ../app/static/css/tailwind-input.css -o ../app/static/css/tailwind-output.css",
-    "build:daisyui": "cp node_modules/daisyui/dist/full.css ../app/static/css/daisyui.css",
+    "build:tailwindcss": "postcss ./app/static/css/tailwind-input.css -o ./app/static/css/tailwind-output.css",
+    "build:daisyui": "cp node_modules/daisyui/dist/full.css ./app/static/css/daisyui.css",
     "watch:tailwindcss": "npm-watch build:tailwindcss"
   }
 }

@@ -11,7 +11,10 @@ install: venv
 	poetry run npm install
 
 run:
-	poetry run uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+	uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+
+watch:
+	npm run watch:tailwindcss
 
 migrations:
 	poetry run alembic -c app/models/alembic.ini revision --autogenerate

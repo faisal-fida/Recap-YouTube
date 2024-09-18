@@ -5,7 +5,6 @@ from starlette.middleware.cors import CORSMiddleware
 from app.core import config
 from app.routes import main_router
 
-
 def get_application() -> FastAPI:
     application = FastAPI(title=config.PROJECT_NAME, debug=config.DEBUG)
 

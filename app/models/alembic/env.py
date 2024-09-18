@@ -9,7 +9,6 @@ from alembic import context
 from app.models import ModelBase
 from app.models.summary import *  # noqa
 
-
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
 config = context.config
@@ -20,7 +19,7 @@ fileConfig(config.config_file_name)
 database_url: str = environ["DATABASE_URL"]
 
 # Force using synchronous driver for migrations
-database_url = database_url.replace("+asyncpg", "")
+database_url = database_url.replace("+asyncpg", "").replace("?ssl=", "?sslmode=")
 # +asyncpg
 
 config.set_main_option("sqlalchemy.url", database_url)

@@ -5,10 +5,12 @@ export $(shell sed 's/=.*//' .env)
 .PHONY: venv install run db-migrate db-downgrade migration-history db-revision test lint clean
 
 venv:
-	poetry install
+	python3 -m venv venv && \
+	. venv/bin/activate && \
+	pip install -r requirements.txt
 
 install: venv
-	poetry run npm install
+	npm install
 
 run:
 	uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
@@ -17,13 +19,13 @@ watch:
 	npm run watch:tailwindcss
 
 migrations:
-	poetry run alembic -c app/models/alembic.ini revision --autogenerate
+	alembic -c app/models/alembic.ini revision --autogenerate
 
 migrate:
-	poetry run alembic -c app/models/alembic.ini upgrade head
+	alembic -c app/models/alembic.ini upgrade head
 
 downgrade:
-	poetry run alembic -c app/models/alembic.ini downgrade -1
+	alembic -c app/models/alembic.ini downgrade -1
 
 history:
-	poetry run alembic -c app/models/alembic.ini history
+	alembic -c app/models/alembic.ini history

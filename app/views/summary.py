@@ -7,7 +7,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.config import templates
 from app.dependencies.db import get_db
-from app.models.summary import YoutubeSummary
+from app.models.summary import Summary
 from app.views.exceptions import InvalidYoutubeURL
 
 logger = logging.getLogger(__name__)
@@ -15,16 +15,14 @@ logger = logging.getLogger(__name__)
 PAGINATE_BY_DEFAULT = 10
 router = APIRouter()
 
-
-async def get_ytdata(video_id: str):
-    ytdata = {
+async def get_data(video_id: str):
+    data = {
         "video_id": video_id[1],
         "title": "How to get the video title",
         "summary": "This video is about something interesting and you should watch it because it's awesome. One more thing to note is that this video is awesome. You should support palestine because they are getting bombed from the israeli government. This is a very sad thing to see.",
         "thumbnail": "https://i.ytimg.com/vi/" + video_id[1] + "/maxresdefault.jpg",
     }
-    return ytdata
-
+    return data
 
 @router.post("/", response_class=HTMLResponse)
 async def summary(video_url: str = Form(...), db: AsyncSession = Depends(get_db), request: Request = None):
@@ -34,16 +32,16 @@ async def summary(video_url: str = Form(...), db: AsyncSession = Depends(get_db)
         raise InvalidYoutubeURL(video_url)
 
     # Check if the video_id is already in the database
-    query = select(YoutubeSummary).where(YoutubeSummary.video_id == video_id[1])
+    query = select(Summary).where(Summary.video_id == video_id[1])
     result = await db.execute(query)
-    ytdata = result.scalars().first()
+    data = result.scalars().first()
 
-    if ytdata:
-        ytdata = ytdata.__dict__.copy()
-        ytdata.pop("_sa_instance_state", None)
+    if data:
+        data = data.__dict__.copy()
+        data.pop("_sa_instance_state", None)
     else:
-        ytdata = await get_ytdata(video_id)
-        summary = YoutubeSummary(**ytdata)
+        data = await get_data(video_id)
+        summary = Summary(**data)
         db.add(summary)
         await db.commit()
     
@@ -51,6 +49,6 @@ async def summary(video_url: str = Form(...), db: AsyncSession = Depends(get_db)
         "pages/home.html",
         {
             "request": request,
-            **ytdata,
+            **data,
         },
     )

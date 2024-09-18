@@ -36,10 +36,10 @@ class DBHandler:
             ),
         )
 
-    def clear_todo_items(self):
+    def clear_summary_items(self):
         self.summary_items = []
 
-    def remove_todo_item(self, item_id: str):
+    def remove_summary_item(self, item_id: str):
         self.summary_items = [
             item for item in self.summary_items if not str(item.id) == item_id
         ]
